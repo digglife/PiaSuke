@@ -1,0 +1,27 @@
+{
+  "name": "PianoSuke",
+  "description": "Bypass App blocker of Pia.jp",
+  "version": "0.1",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage",
+    "scripting",
+    "webRequest",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://*.pia.jp/"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "128": "/images/pia-128.png"
+    }
+  },
+  "icons": {
+    "128": "/images/pia-128.png"
+  }
+}
