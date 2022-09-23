@@ -1,5 +1,3 @@
-
-
 async function replaceWithAppContent() {
   const PIA_HEADERS = {
     "host": "api.p.pia.jp",
@@ -9,39 +7,18 @@ async function replaceWithAppContent() {
 
   const PIA_APIV1 = "https://api.p.pia.jp/v1"
 
-  async function r(endpoint, headers, data) {
-    method = data ? "POST" : "GET"
-    headers = Object.assign({}, PIA_HEADERS, headers)
-    const request = new Request(
-      PIA_APIV1 + endpoint,
-      {
-        method: method,
-        body: JSON.stringify(data),
-        headers: headers
-      })
-
-    return fetch(request)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(`HTTP Error ${response.status}`)
-      })
-      .catch((error) => console.error(error))
-  }
-
   let [appBtn] = document.querySelectorAll('div.js-ua-pcOnly > a.js-dialogLink-app')
   if (!appBtn) {
     return;
   }
-  console.log("button found")
+  console.debug("app button found")
 
   chrome.storage.local.get(['deviceID'], async function (result) {
     deviceID = result.deviceID
     chrome.storage.local.get(['token'], async function (result) {
       t = result.token
       if (!t || Date.now() > (t.accessToken.expiresAt + t.accessToken.expiresIn) * 1000) {
-        console.log("toke not found or expired")
+        console.log("app token not found or expired")
         await fetch(PIA_APIV1 + "/authentication/user",
           {
             method: "POST",
@@ -54,7 +31,7 @@ async function replaceWithAppContent() {
               {
                 method: "POST",
                 headers: { "x-dpia-accesstoken": t.accessToken.token },
-                body: ""
+                body: "" //empty body is required here
               }).then((response) => {
                 ack = response.json()
                 if (!ack.success) {
@@ -75,7 +52,7 @@ async function replaceWithAppContent() {
       }
 
       chrome.runtime.sendMessage(payload, function (response) {
-        console.log(response.content)
+        console.debug(response.content)
         main = document.querySelector('div.md-mainTitleArea__content')
         parser = new DOMParser
         doc = parser.parseFromString(response.content, "text/html")
@@ -103,7 +80,15 @@ button.addEventListener("click", async () => {
     target: { tabId: tab.id },
     function: replaceWithAppContent
   },
-    setBody()
+    printDeviceID()
   );
 });
+
+// The body of this function will be execuetd as a content script inside the
+// current page
+function printDeviceID() {
+  chrome.storage.sync.get(["deviceID"], (r) => {
+    console.log("ID: ", r.deviceID)
+  });
+}
 
