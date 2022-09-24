@@ -9,17 +9,16 @@
   "permissions": [
     "storage",
     "scripting",
-    "webRequest",
-    "tabs"
+    "declarativeContent"
   ],
   "host_permissions": [
     "https://*.pia.jp/"
   ],
   "action": {
-    "default_popup": "popup.html",
     "default_icon": {
       "128": "/images/pia-128.png"
-    }
+    },
+    "default_title": "Show me Pia!"
   },
   "icons": {
     "128": "/images/pia-128.png"
