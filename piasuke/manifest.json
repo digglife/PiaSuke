@@ -1,6 +1,8 @@
 {
-  "name": "PianoSuke",
+  "name": "PiaSuke",
   "description": "Bypass App blocker of Pia.jp",
+  "author": "朱聖黎",
+  "homepage_url": "https://github.com/digglife/PiaSuke",
   "version": "0.1",
   "manifest_version": 3,
   "background": {
