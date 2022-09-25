@@ -11,6 +11,8 @@ chrome.runtime.onInstalled.addListener(() => {
       conditions: [
         new chrome.declarativeContent.PageStateMatcher({
           pageUrl: { hostSuffix: '.pia.jp' },
+          // can't use css selector combinators
+          // refer to https://developer.chrome.com/docs/extensions/reference/declarativeContent/#css
           css: ["a.js-dialogLink-app"]
         })
       ],
@@ -23,7 +25,7 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 chrome.runtime.onMessage.addListener(
-  function (message, _, sendResponse) {
+  function (message, sender, sendResponse) {
     const PIA_APIV1 = "https://api.p.pia.jp/v1"
     p = message
 
@@ -41,7 +43,8 @@ chrome.runtime.onMessage.addListener(
       throw new Error(`HTTP Error: ${response.status}`)
     }).then((text) => {
       sendResponse({ content: text })
-    }).catch((error) => { console.log(error) })
+      chrome.action.setBadgeText({ text: "✓", tabId: sender.tab.id })
+    }).catch((error) => { console.error(error) })
     return true
   }
 );
@@ -49,7 +52,6 @@ chrome.runtime.onMessage.addListener(
 async function replaceWithAppContent() {
   let [appBtn] = document.querySelectorAll('div.js-ua-pcOnly > a.js-dialogLink-app')
   if (!appBtn) {
-    console.debug("app button not found, exit")
     return;
   }
   console.debug("app button found")
@@ -66,8 +68,9 @@ async function replaceWithAppContent() {
     deviceID = result.deviceID
     chrome.storage.local.get(['token'], async function (result) {
       t = result.token
+      console.debug(`app token in local storage: ${JSON.stringify(result.token)}`)
       if (!t || Date.now() > (t.accessToken.expiresAt + t.accessToken.expiresIn) * 1000) {
-        console.log("app token not found or expired")
+        console.debug("app token not found or expired")
         await fetch(PIA_APIV1 + "/authentication/user",
           {
             method: "POST",
@@ -75,24 +78,28 @@ async function replaceWithAppContent() {
             body: JSON.stringify({ "deviceType": 1, "deviceId": deviceID })
           }).then(async function (response) {
             t = await response.json()
-            console.log(t)
             fetch(PIA_APIV1 + "/authentication/user/ack",
               {
                 method: "POST",
                 headers: { "x-dpia-accesstoken": t.accessToken.token },
                 body: "" //empty body is required here
               }).then((response) => {
-                ack = response.json()
-                if (!ack.success) {
-                  throw new Error("failed to ack token")
+                if (response.ok) {
+                  return response.json()
                 }
+                throw new Error(`failed send ack request: ${response.status}`)
+              }).then((ack) => {
+                if (ack.success) return;
+                etype = ack.type || "unknown error"
+                throw new Error(`failed to ack token: ${ack.type}`)
               })
-          }).catch((error) => { console.log("unable to authenticate" + error) })
+          }).catch((error) => { console.error("unable to authenticate" + error) })
       }
-      chrome.storage.local.set({ token: t }, () => { console.log(`token set as:` + JSON.stringify(t)) })
+
+      chrome.storage.local.set({ token: t }, () => { console.debug(`token set as:` + JSON.stringify(t)) })
 
       c = JSON.parse(document.getElementById('mainContents').getAttribute('data-param'))
-      console.log("content meta found in PC HTML page: " + JSON.stringify(c))
+      console.debug("content meta in HTML: " + JSON.stringify(c))
 
       payload = {
         accessToken: t.accessToken.token,
@@ -100,7 +107,7 @@ async function replaceWithAppContent() {
         contentTypeId: c.contentTypeId
       }
 
-      chrome.runtime.sendMessage(payload, function (response) {
+      chrome.runtime.sendMessage(payload, (response) => {
         console.debug(response.content)
         main = document.querySelector('div.md-mainTitleArea__content')
         parser = new DOMParser
@@ -110,7 +117,6 @@ async function replaceWithAppContent() {
     })
   })
 }
-
 
 chrome.action.onClicked.addListener((tab) => {
   chrome.scripting.executeScript({
