@@ -1,12 +1,3 @@
-const PIA_HEADERS = {
-  "host": "api.p.pia.jp",
-  "content-type": "application/json",
-  "user-agent": "Dpia/4.5.0 (jp.co.pia.DigitalPia; build:125; iOS 15.6.1) Alamofire/5.4.0"
-}
-
-const PIA_APIV1 = "https://api.p.pia.jp/v1"
-
-
 chrome.runtime.onInstalled.addListener(() => {
   chrome.action.disable();
 
@@ -33,7 +24,9 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.runtime.onMessage.addListener(
   function (message, _, sendResponse) {
+    const PIA_APIV1 = "https://api.p.pia.jp/v1"
     p = message
+
     fetch(
       `${PIA_APIV1}/webview/locked/cnt/cnt-11-02_${p.contentTypeId}_${p.contentId}.html?contentId=${p.contentId}&contentTypeId=${p.contentTypeId}`,
       {
@@ -60,6 +53,14 @@ async function replaceWithAppContent() {
     return;
   }
   console.debug("app button found")
+
+  const PIA_APIV1 = "https://api.p.pia.jp/v1"
+  const PIA_HEADERS = {
+    "host": "api.p.pia.jp",
+    "content-type": "application/json",
+    "user-agent": "Dpia/4.5.0 (jp.co.pia.DigitalPia; build:125; iOS 15.6.1) Alamofire/5.4.0"
+  }
+
 
   chrome.storage.local.get(['deviceID'], async function (result) {
     deviceID = result.deviceID
