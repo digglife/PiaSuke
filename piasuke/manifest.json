@@ -8,8 +8,13 @@
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": ["storage", "scripting", "declarativeContent"],
-  "host_permissions": ["https://*.pia.jp/"],
+  "content_scripts": [
+    {
+      "matches": ["https://*.pia.jp/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "permissions": ["storage", "scripting"],
   "action": {
     "default_icon": {
       "128": "/images/pia-128.png"
