@@ -6,4 +6,8 @@ Chrome Extension for displaying content that exclusive to Pia Mobile App in the 
 
 ## Demo
 
-https://user-images.githubusercontent.com/1468378/192136461-3c8429f6-dc72-46ff-ac11-b12b6151cac1.mp4
+Left is a chrome instance without any extension, **right is installed with Piasuke**.
+
+左側は拡張なし、右側はぴあ助搭載。
+
+https://user-images.githubusercontent.com/1468378/192557029-49ef4e89-1d6c-4336-8e56-c97da72a89f3.mp4
