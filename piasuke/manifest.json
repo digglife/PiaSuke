@@ -1,6 +1,6 @@
 {
   "name": "PiaSuke",
-  "description": "Bypass App blocker of Pia.jp",
+  "description": "One Click for showing the content available for mobile App of pia.jp",
   "author": "朱聖黎",
   "homepage_url": "https://github.com/digglife/PiaSuke",
   "version": "0.1",
@@ -8,14 +8,8 @@
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": [
-    "storage",
-    "scripting",
-    "declarativeContent"
-  ],
-  "host_permissions": [
-    "https://*.pia.jp/"
-  ],
+  "permissions": ["storage", "scripting", "declarativeContent"],
+  "host_permissions": ["https://*.pia.jp/"],
   "action": {
     "default_icon": {
       "128": "/images/pia-128.png"
