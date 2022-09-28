@@ -11,3 +11,13 @@ Left is a chrome instance without any extension, **right is installed with Piasu
 左側は拡張なし、右側はぴあ助搭載。
 
 https://user-images.githubusercontent.com/1468378/192557029-49ef4e89-1d6c-4336-8e56-c97da72a89f3.mp4
+
+## How To install
+
+I already submitted it to Chrome Webstore, but it has not been approved yet. So for now you have to install it manually under developer mode.
+
+1. Open [chrome://extensions/](chrome://extensions/)
+2. Turn on `Developer Mode`
+3. Click `Load unpacked` button
+4. Find and select `piasuke` directory
+5. Tada...🎉
