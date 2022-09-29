@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "PiaSuke",
+    "description": "App name"
+  },
+  "appDesc": {
+    "message": "Automatically Display the App Exclusive Content of pia.jp.",
+    "description": "App description"
+  }
+}

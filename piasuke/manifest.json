@@ -1,6 +1,7 @@
 {
-  "name": "PiaSuke",
-  "description": "Automatically Display the App Exclusive Content of pia.jp",
+  "name": "__MSG_appName__",
+  "description": "__MSG_appDesc__",
+  "default_locale": "ja",
   "author": "朱聖黎",
   "homepage_url": "https://github.com/digglife/PiaSuke",
   "version": "1.2",
