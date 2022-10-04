@@ -14,7 +14,9 @@ https://user-images.githubusercontent.com/1468378/192557029-49ef4e89-1d6c-4336-8
 
 ## How To install
 
-I already submitted it to Chrome Webstore, but it has not been approved yet. So for now you have to install it manually under developer mode.
+### 1. (Recommended)Install it from [Chrome Web Store](https://chrome.google.com/webstore/detail/piasuke/lmcehbhanildfjbgjbhdacnepaknfpak)
+
+### 2. Install it with Developer Mode.
 
 1. Open [chrome://extensions/](chrome://extensions/)
 2. Turn on `Developer Mode`
