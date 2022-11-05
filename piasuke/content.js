@@ -22,10 +22,8 @@ async function replaceWithAppContent() {
       console.debug(
         `app token in local storage: ${JSON.stringify(result.token)}`
       );
-      if (
-        !t ||
-        Date.now() > (t.accessToken.expiresAt + t.accessToken.expiresIn) * 1000
-      ) {
+      // expiresAt is 7 days after token created.
+      if (!t || Date.now() > t.accessToken.expiresAt * 1000) {
         console.debug("app token not found or expired");
         await fetch(PIA_APIV1 + "/authentication/user", {
           method: "POST",
