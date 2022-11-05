@@ -3,7 +3,7 @@
   "description": "Automatically Display the App Exclusive Content of pia.jp",
   "author": "朱聖黎",
   "homepage_url": "https://github.com/digglife/PiaSuke",
-  "version": "1.0",
+  "version": "1.1",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
