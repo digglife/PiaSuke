@@ -1,5 +1,7 @@
 # PiaSuke（ぴあ助）
 
+Update: Now they charge money for exlusive content, so this extension doesn't work anymore.
+
 Chrome Extension for displaying content that exclusive to Pia Mobile App in the PC browser.
 
 ぴあアプリに独占される内容をブラウザに表示する Chrome 拡張機能。
