@@ -31,6 +31,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     })
     .catch((error) => {
       console.error(error);
+      chrome.action.setBadgeText({ text: "✗", tabId: sender.tab.id });
     });
   return true;
 });
