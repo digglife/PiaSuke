@@ -14,7 +14,7 @@
       "js": ["content.js"]
     }
   ],
-  "permissions": ["storage", "scripting"],
+  "permissions": ["storage"],
   "action": {
     "default_icon": {
       "128": "/images/pia-128.png"
