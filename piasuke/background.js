@@ -27,10 +27,18 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     })
     .then((text) => {
       sendResponse({ content: text });
+      // DOMParser is not available for service_worker.
+      if (text.includes("dpia-app://billingIntro")) {
+        console.warn("subscription is needed for this content.");
+        chrome.action.setBadgeBackgroundColor({ color: "#ff9966" }); // orange color
+        chrome.action.setBadgeText({ text: "¥", tabId: sender.tab.id }); // indicate money is required
+        return;
+      }
       chrome.action.setBadgeText({ text: "✓", tabId: sender.tab.id });
     })
     .catch((error) => {
-      console.error(error);
+      console.warn(error);
+      chrome.action.setBadgeBackgroundColor({ color: "#ff9966" });
       chrome.action.setBadgeText({ text: "✗", tabId: sender.tab.id });
     });
   return true;
