@@ -2,10 +2,14 @@ async function replaceWithAppContent() {
   let [appBtn] = document.querySelectorAll(
     "div.js-ua-pcOnly > a.js-dialogLink-app"
   );
+  // sometimes there is no button, only a line of text like:
+  // ※続きはアプリでお読みください
+  appBtn ||= document.querySelector('a[href^="dpia-app://"]');
   if (!appBtn) {
+    console.debug("app button not found");
     return;
   }
-  console.debug("app button found");
+  console.debug("app button found: ", appBtn.text);
 
   const PIA_APIV1 = "https://api.p.pia.jp/v1";
   const PIA_HEADERS = {
